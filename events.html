@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>كل الفعاليات | دليل فعاليات الجامعة الافتراضية</title>
+  <meta name="description" content="تصفح جميع فعاليات الجامعة وابحث وفلتر حسب التصنيف والتاريخ والموقع.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/logo.svg">
+
+  <!-- خط Cairo: واضح وسهل القراءة للعربية (مع بدائل sans-serif في styles.css) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- Bootstrap 5.3 (نسخة RTL) وأيقوناته عبر CDN -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.rtl.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+  <!-- تنسيقاتنا الخاصة (الألوان، البطاقات، الوضع الداكن) -->
+  <link rel="stylesheet" href="assets/css/styles.css">
+
+  <!-- تطبيق الوضع المحفوظ مبكراً لتجنب وميض الشاشة -->
+  <script>try{var t=localStorage.getItem('uv_theme');if(t)document.documentElement.setAttribute('data-bs-theme',t)}catch(e){}</script>
+</head>
+<body data-page="events">
+  <a class="visually-hidden-focusable position-absolute p-2 bg-warning" href="#main">تخطَّ إلى المحتوى</a>
+
+  <!-- ============ Header: الشعار + شريط التنقل (Bootstrap Navbar) ============ -->
+  <header>
+    <nav class="navbar navbar-expand-lg uv-navbar sticky-top" aria-label="التنقل الرئيسي">
+      <div class="container">
+        <a class="navbar-brand" href="index.html"><img src="assets/img/logo.svg" alt="شعار دليل الفعاليات"><span>دليل فعاليات الجامعة الافتراضية</span></a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNav" aria-controls="mainNav" aria-expanded="false" aria-label="فتح القائمة">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNav">
+          <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-1"><li class="nav-item"><a class="nav-link" href="index.html">الرئيسية</a></li><li class="nav-item"><a class="nav-link active" href="events.html" aria-current="page">الفعاليات</a></li><li class="nav-item"><a class="nav-link" href="about.html">عن الدليل</a></li><li class="nav-item"><a class="nav-link" href="contact.html">اتصل بنا</a></li></ul>
+          <button id="themeToggle" class="btn-theme ms-lg-3" type="button" aria-label="تبديل الوضع الداكن"><i class="bi bi-moon-stars"></i></button>
+        </div>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <!-- القسم 1: ترويسة الصفحة -->
+    
+    <section class="page-hero">
+      <div class="container position-relative">
+        <nav aria-label="مسار التصفح"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="index.html">الرئيسية</a></li><li class="breadcrumb-item active" aria-current="page"><span id="crumbNow">كل الفعاليات</span></li></ol></nav>
+        <h1 class="display-6">كل الفعاليات</h1>
+        <p class="lead mb-0 opacity-90">ابحث وفلتر حسب التصنيف أو التاريخ أو الموقع، ثم افتح تفاصيل الفعالية.</p>
+      </div>
+    </section>
+
+
+    <!-- القسم 2: شريط أدوات البحث والفلترة -->
+    <section aria-label="أدوات البحث والفلترة" class="pb-0">
+      <div class="container">
+        <form id="searchForm" class="filter-bar" role="search">
+          <div class="row g-3 align-items-end">
+            <div class="col-lg-4"><label for="fSearch" class="form-label small fw-bold">بحث</label>
+              <input id="fSearch" type="search" class="form-control" placeholder="اسم الفعالية أو المكان..."></div>
+            <div class="col-6 col-lg-2"><label for="fCat" class="form-label small fw-bold">التصنيف</label><select id="fCat" class="form-select"></select></div>
+            <div class="col-6 col-lg-2"><label for="fLoc" class="form-label small fw-bold">الموقع</label><select id="fLoc" class="form-select"></select></div>
+            <div class="col-6 col-lg-2"><label for="fFrom" class="form-label small fw-bold">من تاريخ</label><input id="fFrom" type="date" class="form-control"></div>
+            <div class="col-6 col-lg-2"><label for="fTo" class="form-label small fw-bold">إلى تاريخ</label><input id="fTo" type="date" class="form-control"></div>
+          </div>
+          <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mt-3">
+            <div class="form-check form-switch"><input class="form-check-input" type="checkbox" role="switch" id="fUpcoming"><label class="form-check-label" for="fUpcoming">إخفاء الفعاليات المنتهية</label></div>
+            <span id="resultCount" class="small text-body-secondary" aria-live="polite"></span>
+            <button id="fReset" type="button" class="btn btn-sm btn-outline-secondary"><i class="bi bi-x-circle"></i> مسح الفلاتر</button>
+          </div>
+        </form>
+      </div>
+    </section>
+
+    <!-- القسم 3: تصنيفات سريعة + قائمة الفعاليات (Cards) -->
+    <section class="section" aria-label="قائمة الفعاليات">
+      <div class="container">
+        <div id="catChips" class="d-flex flex-wrap gap-2 mb-4" role="group" aria-label="فلترة سريعة حسب التصنيف"></div>
+        <div id="eventsGrid" class="row g-4"></div>
+        <div id="emptyAlert" class="alert alert-info d-flex align-items-center gap-2 mt-3" role="status" hidden>
+          <i class="bi bi-info-circle fs-4"></i><div>لا توجد فعاليات تطابق خيارات البحث الحالية. جرّب تغيير الفلاتر أو اضغط «مسح الفلاتر».</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ Footer: التواصل وحقوق النشر والروابط الاجتماعية ============ -->
+  <footer class="uv-footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <h2>دليل فعاليات الجامعة الافتراضية</h2>
+          <p class="small mb-0">منصة واحدة تجمع فعاليات الجامعة الثقافية والرياضية والموسيقية والعائلية والعلمية، لتبقى دائماً على اطلاع بما يحدث حولك.</p>
+        </div>
+        <div class="col-6 col-lg-3">
+          <h2>روابط سريعة</h2>
+          <ul class="list-unstyled small mb-0">
+            <li><a href="index.html">الرئيسية</a></li><li><a href="events.html">كل الفعاليات</a></li>
+            <li><a href="about.html">عن الدليل</a></li><li><a href="contact.html">اتصل بنا</a></li>
+          </ul>
+        </div>
+        <div class="col-6 col-lg-5">
+          <h2>تواصل معنا</h2>
+          <ul class="list-unstyled small">
+            <li><i class="bi bi-envelope"></i> events@uv-guide.example</li>
+            <li><i class="bi bi-telephone"></i> <span dir="ltr">+963 11 000 0000</span></li>
+          </ul>
+          <div class="social" aria-label="حسابات التواصل الاجتماعي">
+            <a href="https://facebook.com" target="_blank" rel="noopener" aria-label="فيسبوك"><i class="bi bi-facebook"></i></a>
+            <a href="https://instagram.com" target="_blank" rel="noopener" aria-label="إنستغرام"><i class="bi bi-instagram"></i></a>
+            <a href="https://x.com" target="_blank" rel="noopener" aria-label="إكس"><i class="bi bi-twitter-x"></i></a>
+            <a href="https://youtube.com" target="_blank" rel="noopener" aria-label="يوتيوب"><i class="bi bi-youtube"></i></a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener" aria-label="لينكد إن"><i class="bi bi-linkedin"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom d-flex flex-wrap justify-content-between gap-2">
+        <span>© <span id="year">2026</span> دليل فعاليات الجامعة الافتراضية — جميع الحقوق محفوظة.</span>
+        <span class="opacity-75">مشروع أكاديمي: الفعاليات والبيانات تجريبية لأغراض العرض.</span>
+      </div>
+    </div>
+  </footer>
+
+  <button id="scrollTop" type="button" aria-label="العودة إلى أعلى الصفحة"><i class="bi bi-arrow-up"></i></button>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/js/main.js"></script>
+</body>
+</html>
